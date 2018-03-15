@@ -11,7 +11,7 @@ namespace MedlemRegisterUppgift3
         static void Main(string[] args)
         {
             var runtime = new Runtime();
-            runtime.Init();
+            runtime.Start();
         }
     }
 }
