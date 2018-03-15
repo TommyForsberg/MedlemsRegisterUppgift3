@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedlemRegisterUppgift3.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace MedlemRegisterUppgift3
 {
-    class Program
+    class Runtime
     {
-        static void Main(string[] args)
+        public void Init()
         {
-            var runtime = new Runtime();
-            runtime.Init();
+            var repo = new MemberRepository();
         }
     }
 }
