@@ -1,7 +1,9 @@
-﻿using MedlemRegisterUppgift3.Repositories;
+﻿using MedlemRegisterUppgift3.Entities;
+using MedlemRegisterUppgift3.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,14 +11,21 @@ namespace MedlemRegisterUppgift3
 {
     class Runtime
     {
+        public List<Member> Members { get; set; }
+
+        public Runtime()
+        {
+            var repo = new MemberRepository();
+            Members = repo.Members;
+        }
 
         internal void Start()
         {
+            PrintList(Members);
             do
             {
-                Console.Clear();
-                Gui.StartMenu();
-                PrintInitialList();
+                //Console.Clear();
+                Gui.StartMenu();        
                 GetChoice();
 
             } while (true);
@@ -63,7 +72,6 @@ namespace MedlemRegisterUppgift3
 
         private void PrintNotPaidMembers()
         {
-            Console.Clear();
             Gui.StartMenu();
             var membersRepo = new MemberRepository();
 
@@ -80,29 +88,57 @@ namespace MedlemRegisterUppgift3
 
         private void SortByLastName()
         {
-            throw new NotImplementedException();
+            var members = Members.ToArray();
+            QuickSort(members, 0, members.Length - 1, p => p.LastName);
+            PrintList(members.ToList());
         }
 
         private void SortByAge()
         {
-            throw new NotImplementedException();
+            var members = Members.ToArray();
+            QuickSort(members, 0, members.Length - 1, p => p.SocialSecurityNumber);
+            PrintList(members.ToList());
+        }
+        internal void QuickSort<T, TProperty>(T[] members, int left, int right, Func<T, TProperty> selector)
+        {
+            if (Comparer<int>.Default.Compare(left, right) < 0)
+            {
+                int index = Partition(members, left, right, selector);
+
+                QuickSort(members, left, index - 1, selector);
+                QuickSort(members, index + 1, right, selector);
+            }
         }
 
-        private void PrintInitialList()
+        private int Partition<T, TProperty>(T[] members, int left, int right, Func<T, TProperty> selector)
         {
-            var membersRepo = new MemberRepository();
+           var pivot = members[right];
+            T temp;
 
-            foreach (var member in membersRepo.Members)
+            int i = left;
+            for (int j = left; j < right; j++)
+            {
+                if (Comparer<TProperty>.Default.Compare(selector(members[j]), selector(pivot)) <= 0)
+                {
+                    temp = members[j];
+                    members[j] = members[i];
+                    members[i] = temp;
+                    i++;
+                }
+            }
+
+            members[right] = members[i];
+            members[i] = pivot;
+
+            return i;
+        }
+        private void PrintList(List<Member> members)
+        {
+            foreach (var member in members)
             {
                 var paid = (member.MemberShipPaid == true) ? "Betald" : "Inte betald";
                 Console.WriteLine("Personnr:  {0} , Förnamn: {1}    , Efternamn: {2}     , Betalat medlemskapet: {3}", member.SocialSecurityNumber, member.FirstName, member.LastName, paid);
             }
         }
-
-        public void Init()
-        {
-            var repo = new MemberRepository();
-        }
-
     }
 }
