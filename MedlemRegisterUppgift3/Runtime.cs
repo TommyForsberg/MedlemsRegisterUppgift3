@@ -70,30 +70,70 @@ namespace MedlemRegisterUppgift3
         private void Search()
         {
             Gui.Topic("Search by lastname");
-            var members = Members.ToArray();
+            var members = GetNotPaidMembers();
+
+            Search(members);
+        }
+
+        private void Search(List<Member> members)
+        {
+            bool validSocialNr = false;
+            string output = String.Empty;
+            long result = 0;
+            var searchList = new List<Member>();
+
             Console.Write("Your input (Lastname or Socialnumber):  ");
             var input = Console.ReadLine();
-            //foreach (var member in members)
-            //{
 
-            //}
+            validSocialNr = long.TryParse(input, out result);
+
+            if (validSocialNr && result.ToString().Length == 12)
+            {
+                searchList = members.Where(x => x.SocialSecurityNumber == result).ToList();
+            }
+            else
+            {
+                searchList = members.Where(x => x.LastName == input).ToList();
+            }
+            if (searchList.Count == 0)
+            {
+                Console.WriteLine("Användare du söker finns inte!!!");
+                Search();
+            }
+            else
+            {
+                Gui.Topic($"Search results by input  - {input} - ");
+                PrintList(searchList);
+            }
+
         }
 
         private void PrintNotPaidMembers()
         {
             Gui.Topic("Members that didnt paid");
 
-            var membersRepo = new MemberRepository();
+            var membersRepo = GetNotPaidMembers();
 
-            foreach (var member in membersRepo.Members)
+            foreach (var member in membersRepo)
             {
                 var paid = (member.MemberShipPaid == true) ? "Betald" : "Inte betald";
-                if (!member.MemberShipPaid)
-                {
-                    Console.WriteLine("Personnr:  {0} , Förnamn: {1}    , Efternamn: {2}     , Betalat medlemskapet: {3}", member.SocialSecurityNumber, member.FirstName, member.LastName, paid);
-                }
+                Console.WriteLine("Personnr:  {0} , Förnamn: {1}    , Efternamn: {2}     , Betalat medlemskapet: {3}", member.SocialSecurityNumber, member.FirstName, member.LastName, paid);
             }
             Console.ReadKey();
+        }
+
+        List<Member> GetNotPaidMembers()
+        {
+            var members = Members.ToList();
+            var notPaidMembers = new List<Member>();
+            foreach (var member in members)
+            {
+                if (!member.MemberShipPaid)
+                {
+                    notPaidMembers.Add(member);
+                }
+            }
+            return notPaidMembers;
         }
 
         private void SortByLastName()
@@ -126,7 +166,7 @@ namespace MedlemRegisterUppgift3
 
         private int Partition<T, TProperty>(T[] members, int left, int right, Func<T, TProperty> selector)
         {
-           var pivot = members[right];
+            var pivot = members[right];
             T temp;
 
             int i = left;
@@ -149,7 +189,7 @@ namespace MedlemRegisterUppgift3
 
         private void PrintList(List<Member> members)
         {
-            
+
             foreach (var member in members)
             {
                 var paid = (member.MemberShipPaid == true) ? "Betald" : "Inte betald";
