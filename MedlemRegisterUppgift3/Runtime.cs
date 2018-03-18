@@ -95,7 +95,7 @@ namespace MedlemRegisterUppgift3
             else
             {
                 //searchList = members.Where(x => x.LastName == input).ToList();
-                searchList = Find<Member, string>(members.ToArray(), p => p.LastName, input);
+                searchList = BinaryFind<Member, string>(members.ToArray(), p => p.LastName, input);
             }
             if (searchList.Count == 0)
             {
@@ -181,11 +181,59 @@ namespace MedlemRegisterUppgift3
                 mid = (first + last) / 2;
 
                 if (Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) == 0)
+                {
+                    bool leftCheck = true;
+                    bool rightCheck = true;
+                    int i = 1;
                     results.Add(members[mid]);
+                    if (rightCheck)
+                    {
+                        try
+                        {
+                            if (Comparer<TProperty>.Default.Compare(selector(members[mid + i]), searchTerm) == 0)
+                            {
+                                results.Add(members[mid + i]);
+                                i++;
+                            }
+                            else
+                            {
+                                rightCheck = false;
+                            }
+                        }
+                        catch
+                        {
+                            rightCheck = false;
+                        }
+                        
+                    }
+                    if (leftCheck)
+                    {
+                        try
+                        {
+                            if (Comparer<TProperty>.Default.Compare(selector(members[mid - i]), searchTerm) == 0)
+                            {
+                                results.Add(members[mid - i]);
+                                i--;
+                            }
+                            else
+                            {
+                                leftCheck = false;
+                            }
+                        }
+                        catch
+                        {
+                            leftCheck = false;
+                        }
+                        
+                    }
+                                                            
+                    break;
+                }
+                    
                 else if (Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) < 0)
-                    last = mid - 1;
+                    first = mid + 1;           
                 else if(Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) > 0)
-                first = mid + 1;
+                    last = mid - 1;
 
             }
            
