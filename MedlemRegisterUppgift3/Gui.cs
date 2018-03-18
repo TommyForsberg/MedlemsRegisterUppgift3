@@ -27,7 +27,7 @@ namespace MedlemRegisterUppgift3
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     4. Search by Lastname (Membersship not paid )                          **");
             Console.WriteLine("        **                                                                                                            **");
-            Console.WriteLine("        **                                     5. Init list                                                           **");
+            Console.WriteLine("        **                                     5. Init list  and clear the app                                        **");
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     0. Exit                                                                **");
             Console.WriteLine("        **                                                                                                            **");
@@ -35,6 +35,14 @@ namespace MedlemRegisterUppgift3
             Console.WriteLine("         **************************************************************************************************************");
             Console.WriteLine("        ****************************************************************************************************************");
             Console.Write("\n");
+            Console.ResetColor();
+        }
+
+        public static void Topic(string topic)
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("     ************ {0} : ***********", topic);
             Console.ResetColor();
         }
     }

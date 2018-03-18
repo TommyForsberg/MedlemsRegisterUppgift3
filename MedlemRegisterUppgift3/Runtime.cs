@@ -21,11 +21,13 @@ namespace MedlemRegisterUppgift3
 
         internal void Start()
         {
+            Console.Clear();
+            Gui.Topic("The raw list");
             PrintList(Members);
+            Gui.StartMenu();
+
             do
             {
-                //Console.Clear();
-                Gui.StartMenu();        
                 GetChoice();
 
             } while (true);
@@ -67,12 +69,14 @@ namespace MedlemRegisterUppgift3
 
         private void SearchByLastName()
         {
+            Gui.Topic("Search by lastname");
             throw new NotImplementedException();
         }
 
         private void PrintNotPaidMembers()
         {
-            Gui.StartMenu();
+            Gui.Topic("Members that didnt paid");
+
             var membersRepo = new MemberRepository();
 
             foreach (var member in membersRepo.Members)
@@ -88,6 +92,7 @@ namespace MedlemRegisterUppgift3
 
         private void SortByLastName()
         {
+            Gui.Topic("List sorted by lastname");
             var members = Members.ToArray();
             QuickSort(members, 0, members.Length - 1, p => p.LastName);
             PrintList(members.ToList());
@@ -95,10 +100,13 @@ namespace MedlemRegisterUppgift3
 
         private void SortByAge()
         {
+            Gui.Topic("List sorted by social number");
+
             var members = Members.ToArray();
             QuickSort(members, 0, members.Length - 1, p => p.SocialSecurityNumber);
             PrintList(members.ToList());
         }
+
         internal void QuickSort<T, TProperty>(T[] members, int left, int right, Func<T, TProperty> selector)
         {
             if (Comparer<int>.Default.Compare(left, right) < 0)
@@ -132,13 +140,16 @@ namespace MedlemRegisterUppgift3
 
             return i;
         }
+
         private void PrintList(List<Member> members)
         {
+            
             foreach (var member in members)
             {
                 var paid = (member.MemberShipPaid == true) ? "Betald" : "Inte betald";
                 Console.WriteLine("Personnr:  {0} , Förnamn: {1}    , Efternamn: {2}     , Betalat medlemskapet: {3}", member.SocialSecurityNumber, member.FirstName, member.LastName, paid);
             }
+
         }
     }
 }
