@@ -89,11 +89,13 @@ namespace MedlemRegisterUppgift3
 
             if (validSocialNr && result.ToString().Length == 12)
             {
-                searchList = members.Where(x => x.SocialSecurityNumber == result).ToList();
+                // searchList = members.Where(x => x.SocialSecurityNumber == result).ToList();
+                searchList = Find<Member,long>(members.ToArray(), p => p.SocialSecurityNumber, result);
             }
             else
             {
-                searchList = members.Where(x => x.LastName == input).ToList();
+                //searchList = members.Where(x => x.LastName == input).ToList();
+                searchList = Find<Member, string>(members.ToArray(), p => p.LastName, input);
             }
             if (searchList.Count == 0)
             {
@@ -151,6 +153,44 @@ namespace MedlemRegisterUppgift3
             var members = Members.ToArray();
             QuickSort(members, 0, members.Length - 1, p => p.SocialSecurityNumber);
             PrintList(members.ToList());
+        }
+        public List<T> Find<T,TProperty>(T[] members, Func<T,TProperty> selector, TProperty searchTerm)
+        {
+            var results = new List<T>();
+           // bool found = false;
+            foreach (var entity in members)
+            {
+                if(Comparer<TProperty>.Default.Compare(selector(entity), searchTerm) == 0)
+                {
+                    results.Add(entity);
+                }
+            }
+            return results;
+
+        }
+
+        public List<T> BinaryFind<T, TProperty>(T[] members, Func<T, TProperty> selector, TProperty searchTerm)
+        {
+            QuickSort(members, 0, members.Length - 1, selector);
+            var results = new List<T>();
+            int mid;
+            var first = 0;
+            var last = members.Length - 1;
+            while (first <= last)
+            {
+                mid = (first + last) / 2;
+
+                if (Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) == 0)
+                    results.Add(members[mid]);
+                else if (Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) < 0)
+                    last = mid - 1;
+                else if(Comparer<TProperty>.Default.Compare(selector(members[mid]), searchTerm) > 0)
+                first = mid + 1;
+
+            }
+           
+            return results;
+
         }
 
         internal void QuickSort<T, TProperty>(T[] members, int left, int right, Func<T, TProperty> selector)
