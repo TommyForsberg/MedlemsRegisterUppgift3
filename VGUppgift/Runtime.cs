@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace VGUppgift
 {
@@ -9,7 +11,7 @@ namespace VGUppgift
     {
         int[] ReadNumbersFromFile(int v)
         {
-            var filePath = Environment.CurrentDirectory + "\\data"+v.ToString()+".txt";
+            var filePath = Environment.CurrentDirectory + "\\data" + v.ToString() + ".txt";
             var lines = File.ReadAllLines(filePath);
             var data = lines[0].Split('\t');
 
@@ -21,7 +23,6 @@ namespace VGUppgift
             Gui.StartMenu();
             do
             {
-                //Console.Clear();
                 GetChoice();
 
             } while (true);
@@ -30,7 +31,7 @@ namespace VGUppgift
         private void GetChoice()
         {
             Console.ResetColor();
-            Console.WriteLine("Ditt val: ");
+            Console.Write("        Ditt val: ");
             var input = Console.ReadKey(true).Key;
             switch (input)
             {
@@ -56,12 +57,14 @@ namespace VGUppgift
         private void GenerateAndSort(int v)
         {
             //var numbersForBubble = GenerateNumbers(v);
+            Console.WriteLine("");
             var numbersForBubble = ReadNumbersFromFile(v);
             var numbersForQuick = ReadNumbersFromFile(v);
             BubbleSort(numbersForBubble, v);
             QuickSort(numbersForQuick, v);
         }
 
+        //Unnecessary method that will generate a 10k, 20k or 40k array of int, but crashes at 20k and 40k arrays
         private int[] GenerateNumbers(int v)
         {
             v = v * 10000;
@@ -71,10 +74,10 @@ namespace VGUppgift
             {
                 int number;
                 Random random = new Random();
-                do number = random.Next(-25000,25000);
+                do number = random.Next(-25000, 25000);
                 while (randomNumbers.Contains(number));
 
-                randomNumbers[i]= number ;
+                randomNumbers[i] = number;
             }
 
             return randomNumbers;
@@ -158,13 +161,13 @@ namespace VGUppgift
             if (type == "Bubble")
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine("Data qunatity : {0} Bubble sorted:   (Execution time: {1} ms)", v , excutionTime);
+                Console.WriteLine("        Data qunatity : {0} Bubble sorted:   (Execution time: {1} ms)", v, excutionTime);
 
             }
             else if (type == "Quick")
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("Data quantity : {0} Quick sorted:   (Execution time: {1} ms)", v, excutionTime);
+                Console.WriteLine("        Data quantity : {0} Quick sorted:   (Execution time: {1} ms)", v, excutionTime);
             }
             //var index = 1;
             //foreach (var number in numbers)

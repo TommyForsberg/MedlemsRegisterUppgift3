@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace VGUppgift
 {
@@ -22,7 +24,7 @@ namespace VGUppgift
             Console.WriteLine("        **                                     2. Sort 20 000 random numbers                                          **");
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     3. Sort 40 000 random numbers                                          **");
-            Console.WriteLine("        **                                                                                                            **");            Console.WriteLine("        **                                                                                                            **");
+            Console.WriteLine("        **                                                                                                            **"); Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     0. Exit                                                                **");
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                            ****------- To quit the app Press 0 -----****                                   **");

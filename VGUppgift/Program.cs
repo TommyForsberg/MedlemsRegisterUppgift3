@@ -9,12 +9,6 @@ namespace VGUppgift
             var runtime = new Runtime();
 
             runtime.Start();
-
-            //runtime.BubbleSort(numbersForBubble);
-
-            //runtime.QuickSort(numbersForQuick);
-
-            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
