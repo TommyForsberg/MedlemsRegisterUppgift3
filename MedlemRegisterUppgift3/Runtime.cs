@@ -58,7 +58,7 @@ namespace MedlemRegisterUppgift3
                     break;
                 case ConsoleKey.NumPad4:
                 case ConsoleKey.D4:
-                    SearchByLastName();
+                    Search();
                     break;
                 case ConsoleKey.NumPad5:
                 case ConsoleKey.D5:
@@ -67,10 +67,16 @@ namespace MedlemRegisterUppgift3
             }
         }
 
-        private void SearchByLastName()
+        private void Search()
         {
             Gui.Topic("Search by lastname");
-            throw new NotImplementedException();
+            var members = Members.ToArray();
+            Console.Write("Your input (Lastname or Socialnumber):  ");
+            var input = Console.ReadLine();
+            //foreach (var member in members)
+            //{
+
+            //}
         }
 
         private void PrintNotPaidMembers()

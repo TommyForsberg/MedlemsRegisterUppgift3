@@ -25,7 +25,7 @@ namespace MedlemRegisterUppgift3
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     3. Membersship not paid                                                **");
             Console.WriteLine("        **                                                                                                            **");
-            Console.WriteLine("        **                                     4. Search by Lastname (Membersship not paid )                          **");
+            Console.WriteLine("        **                                     4. Search by Lastname/Socialnumber (Membersship not paid )             **");
             Console.WriteLine("        **                                                                                                            **");
             Console.WriteLine("        **                                     5. Init list  and clear the app                                        **");
             Console.WriteLine("        **                                                                                                            **");
