@@ -53,7 +53,7 @@ namespace MedlemRegisterUppgift3
                     SortByLastName();
                     break;
                 case ConsoleKey.NumPad3:
-                case ConsoleKey.D3:
+                case ConsoleKey.D3:               
                     PrintNotPaidMembers();
                     break;
                 case ConsoleKey.NumPad4:
@@ -89,12 +89,10 @@ namespace MedlemRegisterUppgift3
 
             if (validSocialNr && result.ToString().Length == 12)
             {
-                // searchList = members.Where(x => x.SocialSecurityNumber == result).ToList();
                 searchList = Find<Member,long>(members.ToArray(), p => p.SocialSecurityNumber, result);
             }
             else
             {
-                //searchList = members.Where(x => x.LastName == input).ToList();
                 searchList = BinaryFind<Member, string>(members.ToArray(), p => p.LastName, input);
             }
             if (searchList.Count == 0)
